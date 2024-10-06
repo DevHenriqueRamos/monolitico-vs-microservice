@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:view>
+   <h:head>
+      <h:outputStylesheet>
+         body {
+            font-family: "JetBrains Mono", sans-serif;
+         }
+
+         form#menu {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+            align-items: center;
+         }
+
+         form#listaProdutos {
+            all: unset;
+            background: none;
+            border: none;
+         }
+
+         form#menu a {
+            margin-top: -0.5rem;
+            text-decoration: none;
+            font-size: 1rem;
+            color: #4CAF50;
+         }
+
+         form#listaProdutos table {
+            width: 100%;
+            max-width: 1024px;
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-size: 16px;
+            text-align: left;
+         }
+
+         form#listaProdutos table thead tr {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+         }
+
+         form#listaProdutos table th, form#listaProdutos table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+         }
+
+         form#listaProdutos table tbody tr {
+            border-bottom: 1px solid #ddd;
+         }
+
+         form#listaProdutos table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+         }
+
+         form#listaProdutos table tbody tr:hover {
+            background-color: #f1f1f1;
+         }
+
+         form#listaProdutos table tbody tr:last-of-type {
+            border-bottom: 2px solid #4CAF50;
+         }
+
+         form#listaProdutos table td:last-child {
+            text-align: center;
+         }
+
+         input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+         }
+
+         input[type="submit"]:hover {
+            background-color: #45a049;
+         }
+
+         h3 {
+            margin-top: 0;
+            text-align: center;
+         }
+
+         input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+         }
+      </h:outputStylesheet>
+   </h:head>
+
+   <h:body>
+      <h:form id="menu">
+         <h:panelGroup>
+            <h:outputText value="Cadastro" />
+            <h:commandLink action="#{indexController.redirectCliente()}" value="Cliente" />
+         </h:panelGroup>
+      </h:form>
+
+      <h:panelGroup>
+         <h3>Produtos cadastrados</h3>
+         <h:form id="listaProdutos" >
+            <h:dataTable value="#{produtoController.produtos}" var="produto">
+               <h:column>
+                  <h:outputText value="#{produto.codigo}" />
+               </h:column>
+               <h:column>
+                  <h:outputText value="#{produto.nome}" />
+               </h:column>
+               <h:column>
+                  <h:outputText value="#{produto.descricao}" />
+               </h:column>
+               <h:column>
+                  <h:outputText value="#{produto.valor}" />
+               </h:column>
+               <h:column>
+                  <h:commandButton action="#{produtoController.edit(produto)}" value="Editar" />
+               </h:column>
+               <h:column>
+                  <h:commandButton action="#{produtoController.delete(produto)}" value="Deletar" />
+               </h:column>
+            </h:dataTable>
+         </h:form>
+
+         <h3>Criar novo Produto</h3>
+         <h:form id="add">
+            <h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
+               <h:outputLabel for="Codigo" value="Codigo" />
+               <h:inputText id="Codigo" value="#{produtoController.produto.codigo}" required="true" disabled="#{produtoController.isUpdate}" />
+               <h:message for="Codigo" />
+
+               <h:outputLabel for="Nome" value="Nome" />
+               <h:inputText id="Nome" value="#{produtoController.produto.nome}" required="true" />
+               <h:message for="Nome" />
+
+               <h:outputLabel for="Descricao" value="Descrição" />
+               <h:inputText id="Descricao" value="#{produtoController.produto.descricao}" required="true" />
+               <h:message for="Descricao" />
+
+               <h:outputLabel for="Valor" value="Valor" />
+               <h:inputText id="Valor" value="#{produtoController.produto.valor}" required="true" />
+               <h:message for="Valor" />
+
+               <h:commandButton value="Cadastrar" action="#{produtoController.add}" rendered="#{!produtoController.isUpdate}" />
+               <h:commandButton value="Atualizar" action="#{produtoController.update}" rendered="#{produtoController.isUpdate}" />
+               <h:commandButton value="Cancelar" action="#{produtoController.cancel}" />
+            </h:panelGrid>
+         </h:form>
+      </h:panelGroup>
+   </h:body>
+</f:view>
+</html>
+
